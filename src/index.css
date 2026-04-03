@@ -107,7 +107,7 @@ h3 {
 
 .nav-card-selected {
   background: var(--background-muted);
-  border: 1px solid (--border-primary)
+  border: 1px solid var(--border-primary); /*
 }
 
 .nav-card p:first-of-type {
