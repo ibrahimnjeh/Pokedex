@@ -1,7 +1,6 @@
-
 import { pokemonTypeColors } from "../utils"
 
-function TypeCard(props) {
+export default function TypeCard(props) {
     const { type } = props
     return (
         <div className="type-tile" style={{ color: pokemonTypeColors?.[type]?.color, background: pokemonTypeColors?.[type]?.background }}>
@@ -9,4 +8,3 @@ function TypeCard(props) {
         </div>
     )
 }
-export default TypeCard

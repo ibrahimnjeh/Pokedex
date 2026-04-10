@@ -1,21 +1,43 @@
-import { first151Pokemon, getFullPokedexNumber } from "../utils";
+import { first151Pokemon, getFullPokedexNumber, getPokedexNumber } from "../utils"
 
-function SideNav() {
+import { useState } from 'react'
+
+export default function SideNav(props) {
+    const { selectedPokemon, setSelectedPokemon, handleCloseMenu, showSideMenu } = props
+
+    const [searchValue, setSearchValue] = useState('')
+
+    const filteredPokemon = first151Pokemon.filter((ele, eleIndex) => {
+        if ((getFullPokedexNumber(eleIndex)).includes(searchValue)) { return true }
+
+        if (ele.toLowerCase().includes(searchValue.toLowerCase())) { return true }
+
+        return false
+    })
+
     return (
-        <nav>
-            <div className={"header"}>
-                <h1 className="text-gradient">Pokedex</h1>
+        <nav className={' ' + (!showSideMenu ? " open" : '')}>
+            <div className={"header " + (!showSideMenu ? " open" : '')} >
+                <button onClick={handleCloseMenu} className="open-nav-button">
+                    <i className="fa-solid fa-arrow-left-long"></i>
+                </button>
+                <h1 className="text-gradient">Pokédex</h1>
             </div>
-            <input/>
-            {first151Pokemon.map((pokemon, pokemonIndex) => {
+            <input placeholder="E.g. 001 or Bulba..." value={searchValue} onChange={(e) => {
+                setSearchValue(e.target.value)
+            }} />
+            {filteredPokemon.map((pokemon, pokemonIndex) => {
+                const truePokedexNumber = first151Pokemon.indexOf(pokemon)
                 return (
-                    <button className={'nav-card'} key={pokemonIndex}>
-                        <p>{getFullPokedexNumber(pokemonIndex)}</p>
-                        {pokemon}
+                    <button onClick={() => {
+                        setSelectedPokemon(truePokedexNumber)
+                        handleCloseMenu()
+                    }} key={pokemonIndex} className={'nav-card ' + (pokemonIndex === selectedPokemon ? ' nav-card-selected' : ' ')}>
+                        <p>{getFullPokedexNumber(truePokedexNumber)}</p>
+                        <p>{pokemon}</p>
                     </button>
-                );
+                )
             })}
         </nav>
-    );
+    )
 }
-export default SideNav
